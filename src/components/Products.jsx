@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import Product from "./Product";
 
-export default function Products() {
+export default function Products({ addToCart }) {
   const [foodItems, setFoodItems] = useState([]);
+
   useEffect(() => {
     async function fetchItems() {
       const data = await fetch("http://localhost:3000/meals");
       const response = await data.json();
-      console.log(response);
+
       setFoodItems(response);
     }
 
@@ -23,6 +24,8 @@ export default function Products() {
         {foodItems.map((meal) => (
           <li key={meal.id}>
             <Product
+              addToCart={addToCart}
+              id={meal.id}
               meal={meal.name}
               price={meal.price}
               description={meal.description}
