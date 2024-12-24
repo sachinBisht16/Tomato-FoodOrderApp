@@ -15,5 +15,5 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(#29251c, #2c2306);
   color: #d9e2f1;
-  min-height: 100vh;
+  /* min-height: 100vh; */
 }

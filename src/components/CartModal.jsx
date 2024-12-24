@@ -8,7 +8,7 @@ const CartModal = forwardRef(function CartModal({ cartItems }, ref) {
   return (
     <dialog
       ref={ref}
-      className="w-4/12 h-72 rounded-2xl bg-slate-100 border-none p-4 "
+      className="w-4/12 h-72 rounded-2xl bg-slate-100 border-none p-4 box-content"
     >
       <header className="w-full h-1/5 p-2 font-bold text-2xl">Your Cart</header>
       <main className="w-full h-auto min-h-40 p-2 font-normal">
