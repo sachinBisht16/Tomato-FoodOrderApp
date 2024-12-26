@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 
 import Products from "./components/Products";
 import CartModal from "./components/CartModal";
@@ -6,6 +6,25 @@ import CartModal from "./components/CartModal";
 function App() {
   const cartRef = useRef();
   const [cart, setCart] = useState([]);
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    function handler(e) {
+      if (
+        cartRef.current &&
+        !cartRef.current.contains(e.target) &&
+        e.target.id !== "cart"
+      ) {
+        closeModalHandler();
+      }
+    }
+    if (isOpen) document.addEventListener("click", handler);
+
+    return () => {
+      document.removeEventListener("click", handler);
+    };
+  }, [isOpen]);
 
   function addToCartHandler(item) {
     setCart((prevCart) => {
@@ -25,6 +44,12 @@ function App() {
 
   function showCartHandler() {
     cartRef.current.showModal();
+    setIsOpen(true);
+  }
+
+  function closeModalHandler() {
+    cartRef.current.close();
+    setIsOpen(false);
   }
 
   const cartItemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
@@ -43,6 +68,7 @@ function App() {
           <h1 className="flex m-auto font-normal text-xl">REACTFOOD</h1>
         </div>
         <button
+          id="cart"
           className="text-yellow-400 font-medium text-xl"
           onClick={showCartHandler}
         >
@@ -51,7 +77,11 @@ function App() {
       </header>
 
       <Products addToCart={addToCartHandler} />
-      <CartModal ref={cartRef} cartItems={cart} />
+      <CartModal
+        ref={cartRef}
+        closeModal={closeModalHandler}
+        cartItems={cart}
+      />
     </div>
   );
 }

@@ -1,14 +1,18 @@
 import { forwardRef } from "react";
 
-const CartModal = forwardRef(function CartModal({ cartItems }, ref) {
+const CartModal = forwardRef(function CartModal(
+  { cartItems, closeModal },
+  ref
+) {
   const total = cartItems
     .reduce((acc, cur) => acc + Number(cur.price) * cur.quantity, 0)
     .toFixed(2);
 
   return (
     <dialog
+      onClose={closeModal}
       ref={ref}
-      className="w-4/12 h-72 rounded-2xl bg-slate-100 border-none p-4 box-content"
+      className="w-4/12 h-72 rounded-2xl bg-slate-100 border-none p-4 box-content opacity-95"
     >
       <header className="w-full h-1/5 p-2 font-bold text-2xl">Your Cart</header>
       <main className="w-full h-auto min-h-40 p-2 font-normal">
@@ -42,7 +46,10 @@ const CartModal = forwardRef(function CartModal({ cartItems }, ref) {
         )}
       </main>
       <footer className="w-full h-1/5 flex justify-end">
-        <button className="text-black bg-transparent mx-1 font-normal">
+        <button
+          className="text-black bg-transparent mx-1 font-normal border-none"
+          onClick={closeModal}
+        >
           Close
         </button>
         <button className="text-black bg-yellow-400 my-2 mx-1 p-2 rounded font-semibold ">
